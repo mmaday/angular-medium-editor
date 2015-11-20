@@ -47,7 +47,12 @@ angular.module('angular-medium-editor', [])
 
             // If user cleared the whole text, we have to reset the editor because MediumEditor
             // lacks an API method to alter placeholder after initialization
-            if (iElement.html() === '<p><br></p>' || iElement.html() === '') {
+            var val  = iElement.html(),
+             textVal = val ? angular.element('<div>' + val + '</div>').text() : val;
+
+            // empty text (e.g. <p><br></p>)
+            if (val && !textVal) {
+              iElement.html('');
               opts.placeholder = placeholder;
               var editor = new MediumEditor(iElement, opts);
             }
